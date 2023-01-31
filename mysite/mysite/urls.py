@@ -21,5 +21,6 @@ urlpatterns = [
     path('mshb/', shablon, name='shb'),
     path('admin/', admin.site.urls),
     path('index/', index, name='index'),
-    path('map/', basicmap, name='basic')
+    path('map/', basicmap, name='basic'),
+    path('dbm/', dbmap, name='dbm')
 ]

@@ -8,4 +8,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('', views.shablon, name='shb'),
     path('', views.basicmap, name='basic'),
+    path('', views.dbmap, name='dbm')
 ]
