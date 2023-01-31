@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from maps.views import shablon
+from maps.views import *
 
 urlpatterns = [
-    path('map/', shablon, name='shb'),
-    #path('maps/', include('maps.urls')),
+    path('mshb/', shablon, name='shb'),
     path('admin/', admin.site.urls),
+    path('index/', index, name='index'),
+    path('map/', basicmap, name='basic')
 ]

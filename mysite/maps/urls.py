@@ -6,5 +6,6 @@ from . import templates
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('map/', views.shablon, name='shb')
+    path('', views.shablon, name='shb'),
+    path('', views.basicmap, name='basic'),
 ]
