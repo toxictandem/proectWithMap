@@ -20,3 +20,9 @@ def dbmap(request):
     dataDict = Landmarks.objects.all()
     #dataJSON = dumps(dataDict)
     return render(request, 'dbmap.html' )
+
+def routermap(request):
+    return render(request, 'router.html')
+
+def multiroute(request):
+    return render(request, 'multiroute.html')

@@ -22,5 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', index, name='index'),
     path('map/', basicmap, name='basic'),
-    path('dbm/', dbmap, name='dbm')
+    path('dbm/', dbmap, name='dbm'),
+    path('rtr/', routermap, name='rtr'),
+    path('multi/', multiroute, name='mlt')
 ]
