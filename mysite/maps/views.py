@@ -26,3 +26,6 @@ def routermap(request):
 
 def multiroute(request):
     return render(request, 'multiroute.html')
+
+def length(request):
+    return render(request, 'length.html')

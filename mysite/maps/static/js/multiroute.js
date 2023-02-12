@@ -2,7 +2,8 @@ function init() {
     // Задаём точки мультимаршрута.
     var pointA = "Москва, проспект Мира, 119, стр. 53",
         pointB = "Москва, проспект Мира, 119, стр. 31",
-        pointC = "Москва, проспект Мира, 119, стр. 20"
+        pointC = "Москва, проспект Мира, 119, стр. 20",
+        pointD = "Москва, площадь Дружбы Народов"
         /**
          * Создаем мультимаршрут.
          * @see https://api.yandex.ru/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml
@@ -11,7 +12,8 @@ function init() {
             referencePoints: [
                 pointA,
                 pointB,
-                pointC
+                pointC,
+                pointD
             ],
             params: {
                 //Тип маршрутизации - пешеходная маршрутизация.
