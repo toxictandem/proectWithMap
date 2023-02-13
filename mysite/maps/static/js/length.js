@@ -1,3 +1,5 @@
+
+
 ymaps.ready(function () {
     var myMap = new ymaps.Map('map', {
         center: [55.753994, 37.622093],
@@ -8,20 +10,27 @@ ymaps.ready(function () {
     // Создание маршрута.
     var points = [];
     var addressStart = 'Москва, проспект Мира, 119с'
-    for (var i = 1; i < 26; i++) {
+    for (var i = 1; i < 25; i++) {
         points.push(addressStart + i);
     }
     console.log(points);
 
+    tempNeedTime = 900;
+    bestLength = 1;
+    bestArray = [addressStart + 1];
+    generator(1, bestArray, 1, 0, 900);
+
+
+
+
     var multiRoute = new ymaps.multiRouter.MultiRoute({
-        referencePoints: points,
+        referencePoints: bestArray,
         params: {
             routingMode: "pedestrian"
         }
     }, {
         boundsAutoApply: true
     });
-
     // Добавление маршрута на карту.
     myMap.geoObjects.add(multiRoute);
 
@@ -34,6 +43,7 @@ ymaps.ready(function () {
         // Вывод информации о маршруте.
         console.log("Длина: " + activeRoute.properties.get("distance").text);
         console.log("Время прохождения: " + activeRoute.properties.get("duration").text);
+        console.log(activeRoute.properties.get("duration").value);
         // Для автомобильных маршрутов можно вывести
         // информацию о перекрытых участках.
         if (activeRoute.properties.get("blocked")) {
@@ -42,4 +52,38 @@ ymaps.ready(function () {
     });
     // Добавление маршрута на карту.
     myMap.geoObjects.add(multiRoute);
+
+    function generator(pathLength, pathArray, lastPoint, pathDuration, needTime) {
+        if (pathDuration < needTime) {
+            if (needTime - pathDuration <= needTime / 15 && pathLength > bestLength) {
+                bestLength = pathLength;
+                bestArray = pathArray;
+            }
+        } else {
+            if (pathDuration - needTime <= needTime / 15 && pathLength > bestLength) {
+                bestLength = pathLength;
+                bestArray = pathArray;
+            }
+        }
+        if (pathDuration - needTime > needTime / 15) {
+            return 0;
+        }
+        for (var i = lastPoint + 1; i < 20; i++) {
+            var tempArray = pathArray;
+            var tempDuration = -1;
+            tempArray.push(addressStart + i);
+            var tempRoute = new ymaps.multiRouter.MultiRoute({
+                referencePoints: tempArray,
+                params: {
+                    routingMode: "pedestrian"
+                }
+            });
+            multiRoute.model.events.add('requestsuccess', function() {
+                var activeRouteTemp = tempRoute.getActiveRoute();
+                tempDuration = activeRouteTemp.properties.get("duration").value;
+            });
+            generator(pathLength + 1, tempArray, i, tempDuration, needTime);
+        }
+    }
 });
+
