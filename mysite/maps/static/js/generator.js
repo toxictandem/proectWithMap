@@ -43,7 +43,7 @@ ymaps.ready(function () {
 
                 console.log('///', q.length);
             }
-        }, 10000
+        }, 1000
     )
     console.log(bestPointArray);
 
@@ -132,7 +132,7 @@ ymaps.ready(function () {
                 console.log('AMOGUX', tempDuration);
                 console.log('Best Temp', bestArray);
                 if (tempDuration < needTime) {
-                    if (pathLength > bestLength) {
+                    if (pathLength + 1 > bestLength) {
                         bestLength = pathLength + 1;
                         bestArray = tempArray.slice();
                         bestPointArray = tempPointArray.slice();
@@ -140,13 +140,16 @@ ymaps.ready(function () {
                 } else {
                     console.log('Stopped: ', pathArray, pathDuration);
                 }
+                console.log('Was: ', q.length);
                 q.push([pathLength + 1, [...tempArray], i, tempDuration, [...tempPointArray]]);
+                console.log('Now; ', q.length);
             }
             waitForDuration();
             //return;
 
         }
         finished = true;
+        console.log('Now-now', q[-1]);
         return;
     }
     setInterval(function () {console.log('TOTAL: ', allPaths);}, 5000);
