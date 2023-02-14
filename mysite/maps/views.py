@@ -29,3 +29,6 @@ def multiroute(request):
 
 def length(request):
     return render(request, 'length.html')
+
+def generate(request):
+    return render(request, 'generate.html')

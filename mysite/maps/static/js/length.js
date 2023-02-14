@@ -1,4 +1,5 @@
-window.superTempDuration = 808;
+window.superTempDuration = -1;
+var tempDuration = -1;
 ymaps.ready(function () {
     var myMap = new ymaps.Map('map', {
         center: [55.753994, 37.622093],
@@ -18,7 +19,7 @@ ymaps.ready(function () {
     bestLength = 1;
     bestArray = [addressStart + 1];
     bestPointArray = [1];
-    generator(1, bestArray, 1, 0, 900, [1]);
+    generator(1, bestArray, 1, 0, tempNeedTime, [1]);
     console.log(bestPointArray);
 
 
@@ -32,45 +33,40 @@ ymaps.ready(function () {
     }, {
         boundsAutoApply: true
     });
-    // Добавление маршрута на карту.
-    myMap.geoObjects.add(multiRoute);
+
+
 
     // Подписка на событие обновления данных маршрута.
     multiRoute.model.events.add('requestsuccess', function() {
-        // Получение ссылки на активный маршрут.
-        // В примере используется автомобильный маршрут,
-        // поэтому метод getActiveRoute() вернет объект multiRouter.driving.Route.
         var activeRoute = multiRoute.getActiveRoute();
-        // Вывод информации о маршруте.
         console.log("Длина: " + activeRoute.properties.get("distance").text);
         console.log("Время прохождения: " + activeRoute.properties.get("duration").text);
         console.log(activeRoute.properties.get("duration").value);
         console.log("Точки маршрута: " + bestArray);
-        // Для автомобильных маршрутов можно вывести
-        // информацию о перекрытых участках.
-        if (activeRoute.properties.get("blocked")) {
-            console.log("На маршруте имеются участки с перекрытыми дорогами.");
-        }
     });
-    // Добавление маршрута на карту.
+
     myMap.geoObjects.add(multiRoute);
 
 
     function getPathDuration(pathArrayTemp) {
-        var superTempRoute = new ymaps.multiRouter.MultiRoute({
-                referencePoints: pathArrayTemp,
-                params: {
-                    routingMode: "pedestrian"
-                }
-            });
-            superTempRoute.model.events.add('requestsuccess', function() {
-                var activeRouteSuperTemp = superTempRoute.getActiveRoute();
-                window.superTempDuration = activeRouteSuperTemp.properties.get("duration").value;
-                console.log("!!! ", superTempDuration);
-                //return (superTempDuration);
-            });
-            console.log("??? ", superTempDuration);
-            return superTempDuration;
+        tempDuration = -1;
+        var newRoute = ymaps.route(pathArrayTemp).then(function (route) {
+            tempDuration = route.getTime();
+            console.log('Time ', tempDuration);
+            myMap.geoObjects.add(route);
+        })
+
+        function waitForTime() {
+            if (tempDuration == -1) {
+                console.log('wait not yet...')
+                setTimeout(waitForTime, 50);
+                return;
+            }
+            console.log('Please!!!!!!!!!!!', tempDuration);
+            return;
+        }
+        waitForTime();
+        return;
     }
 
     function generator(pathLength, pathArray, lastPoint, pathDuration, needTime, pointArray) {
@@ -85,12 +81,22 @@ ymaps.ready(function () {
 
         for (var i = lastPoint + 1; i < 5; i++) {
             var tempArray = pathArray;
-            var tempDuration = 808;
             var tempPointArray = pointArray;
             tempArray.push(addressStart + i);
-            tempDuration = getPathDuration(tempArray);
+            getPathDuration(tempArray);
             tempPointArray.push(i)
-            generator(pathLength + 1, tempArray, i, tempDuration, needTime, tempPointArray);
+            function waitForDuration() {
+                if (tempDuration == -1) {
+                    console.log('gen not yet..', tempDuration);
+                    setTimeout(waitForDuration, 50);
+                    return;
+                }
+                console.log('AMOGUX', tempDuration);
+                generator(pathLength + 1, tempArray, i, tempDuration, needTime, tempPointArray);
+            }
+            waitForDuration();
+            return;
+
         }
         return 0;
     }

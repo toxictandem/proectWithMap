@@ -25,5 +25,6 @@ urlpatterns = [
     path('dbm/', dbmap, name='dbm'),
     path('rtr/', routermap, name='rtr'),
     path('multi/', multiroute, name='mlt'),
-    path('len/', length, name='len')
+    path('len/', length, name='len'),
+    path('gen/', generate, name='gen')
 ]
