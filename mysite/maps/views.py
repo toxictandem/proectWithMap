@@ -32,3 +32,6 @@ def length(request):
 
 def generate(request):
     return render(request, 'generate.html')
+
+def judger(request):
+    return render(request, 'judger.html')
