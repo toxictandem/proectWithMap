@@ -30,7 +30,7 @@ ymaps.ready(function () {
     q.push([2, bestArray.slice(), 2, 0, [1, 2] ])
 
     setInterval( function () {
-            while (q.length > 0) {
+            if (q.length > 0) {
                 let pathData = q.pop();
                 let pathLength = pathData[0];
                 let pathArray = pathData[1];
@@ -42,24 +42,31 @@ ymaps.ready(function () {
                 generator(pathLength, pathArray, lastPoint, pathDuration, pointArray);
 
                 console.log('///', q.length);
+
             }
-        }, 1000
+        }, 10
     )
     console.log(bestPointArray);
 
     //pathLength, pathArray, lastPoint, pathDuration, pointArray
 
 
-    var multiRoute = new ymaps.multiRouter.MultiRoute({
-        referencePoints: bestArray,
-        params: {
-            routingMode: "pedestrian"
-        }
-    }, {
-        boundsAutoApply: true
-    });
+    var draw = setInterval( function () {
+            if (q.length == 0) {
+                var multiRoute = new ymaps.multiRouter.MultiRoute({
+                    referencePoints: bestArray,
+                    params: {
+                        routingMode: "pedestrian"
+                    }
+                }, {
+                    boundsAutoApply: true
+                });
 
-
+                myMap.geoObjects.add(multiRoute);
+                clearInterval(draw);
+            }
+        }, 10000
+    )
 
     // Подписка на событие обновления данных маршрута.
     /*multiRoute.model.events.add('requestsuccess', function() {
@@ -70,7 +77,7 @@ ymaps.ready(function () {
         console.log("Точки маршрута: " + bestArray);
     });*/
 
-    myMap.geoObjects.add(multiRoute);
+
 
 
     function getPathDuration(pathArrayTemp) {
@@ -89,13 +96,12 @@ ymaps.ready(function () {
             tempDuration = tempActiveRoute.properties.get("duration").value;
             //return;
         });
-        console.log('?');
         //var tempActiveRoute = tempRoute.getActiveRoute();
         //console.log()
         function waitForTime() {
             if (tempDuration == -1) {
                 //console.log('gen not yet...')
-                setTimeout(waitForTime, 50);
+                setTimeout(waitForTime, 10);
                 return;
             }
             console.log('Please!!!!!!!!!!!', tempDuration);
@@ -107,30 +113,30 @@ ymaps.ready(function () {
 
     //pathLength, pathArray, lastPoint, pathDuration, needTime, pointArray
     function generator(pathLength, pathArray, lastPoint, pathDuration, pointArray) {
-
+        lastPoint = Math.max(...pointArray);
         console.log('PLUS', pathLength, pathArray, lastPoint, pathDuration, pointArray);
+        allPaths.push([...pointArray]);
 
-
-        for (var i = lastPoint + 1; i < 7; i++) {
+        for (var i = lastPoint + 1; i < 100; i++) {
             let tempArray = [...pathArray];
             let tempPointArray = [...pointArray];
             tempArray.push(addressStart + i);
 
-            console.log('ADD Iteration')
+            //console.log('ADD Iteration')
             getPathDuration(tempArray);
             tempPointArray.push(i);
             console.log('END Iteration');
-            allPaths.push([...tempPointArray]);
+
 
             function waitForDuration() {
                 if (tempDuration == -1) {
                     console.log('gen not yet...');
-                    setTimeout(waitForDuration, 50);
+                    setTimeout(waitForDuration, 10);
                     finished = true;
                     return;
                 }
                 console.log('AMOGUX', tempDuration);
-                console.log('Best Temp', bestArray);
+                //console.log('Best Temp', bestArray);
                 if (tempDuration < needTime) {
                     if (pathLength + 1 > bestLength) {
                         bestLength = pathLength + 1;
