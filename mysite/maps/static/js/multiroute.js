@@ -49,7 +49,9 @@ function init() {
     });
 
     // Добавляем мультимаршрут на карту.
-    myMap.geoObjects.add(multiRoute);
+    function draw() {
+        myMap.geoObjects.add(multiRoute);
+    }
 }
 
 ymaps.ready(init);

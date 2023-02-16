@@ -149,7 +149,7 @@ ymaps.ready(function () {
 
         }
         finished = true;
-        console.log('Now-now', q[-1]);
+        console.log('Now-now', q[q.length-1]);
         return;
     }
     setInterval(function () {console.log('TOTAL: ', allPaths);}, 5000);

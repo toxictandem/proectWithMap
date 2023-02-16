@@ -6,6 +6,7 @@ from .models import *
 from . import templates
 
 from json import dumps
+import json
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
@@ -32,3 +33,7 @@ def length(request):
 
 def generate(request):
     return render(request, 'generate.html')
+
+def send_array(request):
+    dataDict = list(Routes.objects.all())
+    return render(request, 'landing.html', {'data': dataDict})

@@ -26,5 +26,6 @@ urlpatterns = [
     path('rtr/', routermap, name='rtr'),
     path('multi/', multiroute, name='mlt'),
     path('len/', length, name='len'),
-    path('gen/', generate, name='gen')
+    path('gen/', generate, name='gen'),
+    path('arr/', send_array, name='arr')
 ]

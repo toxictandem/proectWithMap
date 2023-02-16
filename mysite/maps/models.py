@@ -1,8 +1,9 @@
 from django.db import models
+from django.forms import ModelForm
 
 # Create your models here.
-#Usrname: admin
-#Email adress: kroshhhhhhhh@gmail.com
+#Username: admin
+#Email address: kroshhhhhhhh@gmail.com
 #Password: toxic_tandem111
 
 class Landmarks(models.Model):
@@ -19,3 +20,10 @@ class LandDB(models.Model):
 
     def __str__(self):
         return self.name
+
+class Routes(models.Model):
+    address = models.TextField()
+    duration = models.IntegerField(default=0)
+    length = models.IntegerField(default=0)
+    #def __str__(self):
+    #    return self.name
