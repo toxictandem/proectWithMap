@@ -19,3 +19,11 @@ class LandDB(models.Model):
 
     def __str__(self):
         return self.name
+
+class Routes(models.Model):
+    points = models.TextField()
+    duration = models.IntegerField(default=0)
+    length = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name

@@ -35,3 +35,6 @@ def generate(request):
 
 def judger(request):
     return render(request, 'judger.html')
+
+def goose(request):
+    return render(request, 'goose.html')

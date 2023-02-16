@@ -27,5 +27,6 @@ urlpatterns = [
     path('multi/', multiroute, name='mlt'),
     path('len/', length, name='len'),
     path('gen/', generate, name='gen'),
-    path('jud/', judger, name='jud')
+    path('jud/', judger, name='jud'),
+    path('goose/', goose, name='goose')
 ]

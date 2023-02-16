@@ -6,6 +6,7 @@ var q = [];
 var pathData = [];
 var used = [];
 var finished = false;
+var count = 0;
 
 ymaps.ready(function () {
     var myMap = new ymaps.Map('map', {
@@ -30,7 +31,7 @@ ymaps.ready(function () {
     q.push([2, bestArray.slice(), 2, 0, [1, 2] ])
 
     setInterval( function () {
-            if (q.length > 0) {
+            if (q.length > 0 && count < 50) {
                 let pathData = q.pop();
                 let pathLength = pathData[0];
                 let pathArray = pathData[1];
@@ -52,8 +53,9 @@ ymaps.ready(function () {
 
 
     var draw = setInterval( function () {
-            if (q.length == 0 || bestPointArray.length > 8) {
+            if (q.length == 0 || count >= 50) {
                 q = [];
+                console.log('ALARM EVERYTHING ENDED', count)
                 var multiRoute = new ymaps.multiRouter.MultiRoute({
                     referencePoints: bestArray,
                     params: {
@@ -114,6 +116,7 @@ ymaps.ready(function () {
 
     //pathLength, pathArray, lastPoint, pathDuration, needTime, pointArray
     function generator(pathLength, pathArray, lastPoint, pathDuration, pointArray) {
+        count += 1;
         lastPoint = Math.max(...pointArray);
         console.log('PLUS', pathLength, pathArray, lastPoint, pathDuration, pointArray);
         allPaths.push([...pointArray]);
@@ -159,6 +162,7 @@ ymaps.ready(function () {
         console.log('Now-now', q[-1]);
         return;
     }
+    setInterval(function () {console.log('CHECK: ', q.length, count);}, 5000);
     setInterval(function () {console.log('TOTAL: ', allPaths);}, 5000);
     setInterval(function () {console.log('BEST:  ', bestPointArray);}, 5000);
     setInterval(function () {console.log('USED:  ', q);}, 5000);
