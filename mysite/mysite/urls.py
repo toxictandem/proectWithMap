@@ -27,5 +27,10 @@ urlpatterns = [
     path('multi/', multiroute, name='mlt'),
     path('len/', length, name='len'),
     path('gen/', generate, name='gen'),
-    path('arr/', send_array, name='arr')
+    path('arr/', send_array, name='arr'),
+    path('form/', get_name, name='form'),
+    path('p/', pointer, name='point'),
+    path('anim/', animation, name='anim'),
+    path('answer/', answer),
+    path('jud/', judger)
 ]

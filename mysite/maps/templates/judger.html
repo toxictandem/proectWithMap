@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    {% for p in points %}
+        <div type="hidden" id="object-{{p.id}}" data-view-mode="list" value="{{p.id}}" >
+            <input type="hidden" id="id-{{p.id}}" data-view-mode="list" value="{{p.id}}" readonly>
+            <input type="hidden" id="name-{{p.id}}" data-view-mode="list" value="{{p.name}}" readonly>
+            <input type="hidden" id="x-{{p.id}}" data-view-mode="list" value="{{p.coord_x}}" readonly>
+            <input type="hidden" id="y-{{p.id}}" data-view-mode="list" value="{{p.coord_y}}" readonly>
+        </div>
+    {% endfor %}
+    <input type="hidden" id="hour" data-view-mode="list" value="{{hour}}" readonly>
+    <input type="hidden" id="minute" data-view-mode="list" value="{{minute}}" readonly>
+    <input type="hidden" id="must" data-view-mode="list" value="{{route}}" readonly>
+
+
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=f5d06009-128c-48d7-a2ee-73160b64f9e8" type="text/javascript"></script>
+    <script type="text/javascript" src="{% static 'js/judger.js' %}"> </script>
+
+    <div id="map" style="width:1080px; height:1080px"></div>
+</body>
+</html>
+
