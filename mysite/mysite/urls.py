@@ -20,7 +20,6 @@ from maps.views import *
 urlpatterns = [
     path('mshb/', shablon, name='shb'),
     path('admin/', admin.site.urls),
-    path(r'^$', index, name='index'),
     path('map/', basicmap, name='basic'),
     path('dbm/', dbmap, name='dbm'),
     path('rtr/', routermap, name='rtr'),

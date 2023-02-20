@@ -7,7 +7,7 @@ var pathData = [];
 var used = [];
 var finished = false;
 var count = 0;
-var iterationCount = 100000000;
+var iterationCount = 200;
 
 ymaps.ready(function () {
     var myMap = new ymaps.Map('map', {

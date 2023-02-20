@@ -10,11 +10,11 @@
     <a href="{% url 'point' %}">Создать динамический маршрут</a> <br>
     <a href="{% url 'create' %}">Создать статический маршрут</a> <br>
     {% for p in data %}
-        <div id="object={{p.id}}">
+        <div id="object-{{p.id}}">
             <h1>Маршрут №{{p.id}}</h1>
             <p>{{p.names}}</p>
-            <p>Продолжительсность маршрута: {{p.duration}}</p>
-            <p>Длина маршрута: {{p.length}}</p>
+            <p id="text-duration-{{p.id}}" >Продолжительсность маршрута: {{p.duration}}</p>
+            <p id="text-length-{{p.id}}" >Длина маршрута: {{p.length}}</p>
             <input type="hidden" id="address-{{p.id}}" data-view-mode="list" value="{{p.address}}" readonly>
             <input type="hidden" id="length-{{p.id}}" data-view-mode="list" value="{{p.length}}" readonly>
             <input type="hidden" id="duration-{{p.id}}" data-view-mode="list" value="{{p.duration}}" readonly>

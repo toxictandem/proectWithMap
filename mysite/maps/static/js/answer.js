@@ -4,6 +4,27 @@ function init() {
     var addressStart = 'Москва, проспект Мира, 119с'
     var all_id = new Set();
 
+    i = '';
+    time = document.getElementById('duration').value;
+    hour = Math.floor(time / 3600);
+    minute = Math.floor( (time - hour * 3600) / 60 );
+    if (hour > 0) {
+        document.getElementById('text-duration').textContent = 'Продолжительность маршрута: ' + hour + ' ч. ' + minute + ' мин.';
+    }
+        else {
+            document.getElementById('text-duration').textContent = 'Продолжительность маршрута: ' + minute + ' мин.';
+        }
+
+        length = document.getElementById('length').value;
+        kilo = Math.floor(length / 1000);
+        metr = Math.floor( (length - kilo * 1000)  );
+        if (kilo > 0) {
+            document.getElementById('text-length').textContent = 'Длина маршрута: ' + kilo + ' км. ' + metr + ' м.';
+        }
+        else {
+            document.getElementById('text-length').textContent = 'Длина маршрута: ' + metr + ' м.';
+        }
+
     for (i = 0; i < 700; i++) {
         check = document.getElementById('object-'+i);
         points.push(false);
