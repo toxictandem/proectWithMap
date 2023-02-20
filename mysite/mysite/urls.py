@@ -20,7 +20,7 @@ from maps.views import *
 urlpatterns = [
     path('mshb/', shablon, name='shb'),
     path('admin/', admin.site.urls),
-    path('index/', index, name='index'),
+    path(r'^$', index, name='index'),
     path('map/', basicmap, name='basic'),
     path('dbm/', dbmap, name='dbm'),
     path('rtr/', routermap, name='rtr'),
@@ -32,5 +32,8 @@ urlpatterns = [
     path('p/', pointer, name='point'),
     path('anim/', animation, name='anim'),
     path('answer/', answer),
-    path('jud/', judger)
+    path('jud/', judger),
+    path('error/', error),
+    path('choose/', choose, name='choose'),
+    path('create/', create, name='create')
 ]

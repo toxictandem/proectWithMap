@@ -26,4 +26,5 @@ class Routes(models.Model):
     address = models.TextField()
     duration = models.IntegerField(default=0)
     length = models.IntegerField(default=0)
+    names = models.TextField()
 

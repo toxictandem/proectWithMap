@@ -7,7 +7,7 @@ var pathData = [];
 var used = [];
 var finished = false;
 var count = 0;
-var iterationCount = 70;
+var iterationCount = 100000000;
 
 ymaps.ready(function () {
     var myMap = new ymaps.Map('map', {
@@ -46,19 +46,24 @@ ymaps.ready(function () {
 
     mustEncoded = document.getElementById('must').value;
     must = [ [points[1].x, points[1].y] ];
+    cd = [];
     for (i = 0; i < 1400; i += 2) {
         if (mustEncoded[i] == 1) {
-            must.push( [points[i].x, points[i].y] );
+            console.log('PREPARE: ',i / 2);
+            must.push( [points[i / 2].x, points[i / 2].y] );
+            cd.push(i / 2);
         }
     }
+    console.log('MUST: ', must, cd);
 
     needTime = hour * 3600 + minute * 60;
-    bestLength = 2;
+    bestLength = cd.length;
     bestArray = must;
-    bestPointArray = [1];
+    bestPointArray = cd;
     bestTime = -1;
+    bestDistance = -1;
 
-    q.push([2, bestArray.slice(), 2, 0, [1] ])
+    q.push([bestLength, bestArray.slice(), bestArray[bestLength - 1], bestTime, bestDistance, [1] ])
 
     setInterval( function () {
             if (q.length > 0 && count < iterationCount) {
@@ -67,10 +72,11 @@ ymaps.ready(function () {
                 let pathArray = pathData[1];
                 let lastPoint = pathData[2];
                 let pathDuration = pathData[3];
-                let pointArray = pathData[4];
+                let pathDistance = pathData[4];
+                let pointArray = pathData[5];
                 used.push(q);
                 finished = false
-                generator(pathLength, pathArray, lastPoint, pathDuration, pointArray);
+                generator(pathLength, pathArray, lastPoint, pathDuration, pointArray, pathDistance);
 
                 console.log('///', q.length);
 
@@ -86,21 +92,36 @@ ymaps.ready(function () {
             console.log('work?');
             if (q.length == 0 || count >= iterationCount) {
                 q = [];
+                count = 0;
                 console.log('ALARM EVERYTHING ENDED', count)
-                var multiRoute = new ymaps.multiRouter.MultiRoute({
+                /*var multiRoute = new ymaps.multiRouter.MultiRoute({
                     referencePoints: bestArray,
                     params: {
                         routingMode: "pedestrian"
                     }
                 }, {
                     boundsAutoApply: true
-                });
+                });*/
 
-                myMap.geoObjects.add(multiRoute);
+                //myMap.geoObjects.add(multiRoute);
                 console.log(getPathDuration(bestArray, bestLength), tempDuration, 'ANSWER');
+                console.log(encodeDouble(bestArray), 'encoded');
+                console.log(encode(bestPointArray), 'encoded');
+                document.getElementById('id_address').value = encode(bestPointArray);
+                document.getElementById('id_length').value = bestDistance;
+                document.getElementById('id_duration').value = bestTime;
+                names = ''
+                console.log(bestPointArray);
+                for ( i = 0; i < bestPointArray.length; i++) {
+                    names += points[ bestPointArray[i] ].name + "; ";
+                    console.log('names:', points[ bestPointArray[i] ])
+                }
+                document.getElementById('id_names').value = names;
+                form = document.getElementById('nice_form');
+                form.submit();
                 clearInterval(draw);
             }
-        }, 10000
+        }, 1000
     )
     draw;
 
@@ -118,6 +139,7 @@ ymaps.ready(function () {
 
     function getPathDuration(pathArrayTemp, pathArrayLength) {
         tempDuration = -1;
+        tempDistance = -1;
         var tempRoute = new ymaps.multiRouter.MultiRoute({
             referencePoints: pathArrayTemp,
             params: {
@@ -130,17 +152,18 @@ ymaps.ready(function () {
             console.log("Время прохождения: " + tempActiveRoute.properties.get("duration").text);
             console.log(pathArrayTemp);
             tempDuration = tempActiveRoute.properties.get("duration").value;
+            tempDistance = tempActiveRoute.properties.get("distance").value;
             //return;
         });
         //var tempActiveRoute = tempRoute.getActiveRoute();
         //console.log()
         function waitForTime() {
-            if (tempDuration == -1) {
+            if (tempDuration == -1 || tempDistance == -1) {
                 //console.log('gen not yet...')
                 setTimeout(waitForTime, 10);
                 return;
             }
-            console.log('Please!!!!!!!!!!!', tempDuration);
+            console.log('Please!!!!!!!!!!!', tempDuration, tempDistance);
             return;
         }
         waitForTime();
@@ -148,7 +171,7 @@ ymaps.ready(function () {
     }
 
     //pathLength, pathArray, lastPoint, pathDuration, needTime, pointArray
-    function generator(pathLength, pathArray, lastPoint, pathDuration, pointArray) {
+    function generator(pathLength, pathArray, lastPoint, pathDuration, pointArray, pathDistance) {
         count += 1;
         lastPoint = Math.max(...pointArray);
         console.log('PLUS', pathLength, pathArray, lastPoint, pathDuration, pointArray);
@@ -176,18 +199,19 @@ ymaps.ready(function () {
                 }
                 console.log('AMOGUX', tempDuration);
                 //console.log('Best Temp', bestArray);
-                if (Math.abs(tempDuration - needTime) <= 240 && bestLength < pathLength + 1) {
+                if (Math.abs(tempDuration - needTime) <= 60 && bestLength < pathLength + 1) {
                     bestLength = pathLength + 1;
                     bestArray = tempArray.slice();
                     bestPointArray = tempPointArray.slice();
                     bestTime = tempDuration;
+                    bestDistance = tempDistance;
                     //q = [];
                     //return;
                 } else {
                     console.log('Stopped: ', pathArray, pathDuration);
                 }
                 console.log('Was: ', q.length);
-                q.push([pathLength + 1, [...tempArray], i, tempDuration, [...tempPointArray]]);
+                q.push([pathLength + 1, [...tempArray], i, tempDuration, tempDistance, [...tempPointArray]]);
                 console.log('Now; ', q.length);
             }
             waitForDuration();
@@ -198,11 +222,34 @@ ymaps.ready(function () {
         console.log('Now-now', q[-1]);
         return;
     }
+
+    function encodeDouble(s) {
+        result = ''
+        for (i = 0; i < s.length; i++) {
+            result += '' + s[i][0] + '|' + s[i][1] + '|';
+        }
+        return result;
+    }
+
+    function encode(s) {
+        result = ''
+        for (i = 0; i < 700; i++) {
+            if (s.includes(i)) {
+                temp = 1;
+            } else {
+                temp = 0;
+            }
+            result += '' + temp + '|';
+        }
+        return result;
+    }
+
     setInterval(function () {console.log('CHECK: ', q.length, count);}, 5000);
     setInterval(function () {console.log('TOTAL: ', allPaths);}, 5000);
     setInterval(function () {console.log('BEST:  ', bestPointArray);}, 5000);
     setInterval(function () {console.log('USED:  ', count, q);}, 5000);
     setInterval(function () {console.log('TIME:  ', bestTime);}, 5000);
+    setInterval(function () {console.log('DIST:  ', bestDistance);}, 5000);
 });
 //aboba
 //sus

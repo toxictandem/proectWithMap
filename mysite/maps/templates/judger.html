@@ -6,7 +6,9 @@
     <title>Title</title>
 </head>
 <body>
-
+    <a href="{% url 'choose' %}">Выбор статических маршрутов</a> <br>
+    <a href="{% url 'point' %}">Создать динамический маршрут</a> <br>
+    <a href="{% url 'create' %}">Создать статический маршрут</a> <br>
     {% for p in points %}
         <div type="hidden" id="object-{{p.id}}" data-view-mode="list" value="{{p.id}}" >
             <input type="hidden" id="id-{{p.id}}" data-view-mode="list" value="{{p.id}}" readonly>
@@ -19,11 +21,60 @@
     <input type="hidden" id="minute" data-view-mode="list" value="{{minute}}" readonly>
     <input type="hidden" id="must" data-view-mode="list" value="{{route}}" readonly>
 
+    <form id="nice_form" action="/p/" method="post">
+        {% csrf_token %}
+        {{ form }} <br>
+        <input type="hidden" type="submit" value="Submit">
+    </form>
 
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=f5d06009-128c-48d7-a2ee-73160b64f9e8" type="text/javascript"></script>
     <script type="text/javascript" src="{% static 'js/judger.js' %}"> </script>
 
-    <div id="map" style="width:1080px; height:1080px"></div>
+    <div id="map"></div>
+
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 95%;
+            padding: 0;
+            margin: 0;
+            font-family: Sans-Serif;
+        }
+
+        #map {
+            widht: 100%;
+            height: 90%;
+        }
+
+        .placemark {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/2711/2711637.png');
+            background-size: 100%;
+            width: 34px;
+            height: 34px;
+            margin-left: -17px;
+            margin-top: -17px;
+        }
+
+        .active {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/2711/2711608.png');
+            width: 60px;
+            height: 60px;
+            margin-left: -30px;
+            margin-top: -40px;
+
+        }
+
+        .placemark-name {
+            font-size: x-small;
+            text-align: center;
+            margin-left: -25px;
+        }
+        .ymaps-layers-pane {
+            -webkit-filter: grayscale(100%);
+        }
+    </style>
+
 </body>
 </html>
 
+<!-- judger -->

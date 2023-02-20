@@ -9,26 +9,28 @@
     <a href="{% url 'choose' %}">Выбор статических маршрутов</a> <br>
     <a href="{% url 'point' %}">Создать динамический маршрут</a> <br>
     <a href="{% url 'create' %}">Создать статический маршрут</a> <br>
-    {% for p in points %}
-        <div type="hidden" id="object-{{p.id}}" data-view-mode="list" value="{{p.id}}" >
-            <input type="hidden" id="id-{{p.id}}" data-view-mode="list" value="{{p.id}}" readonly>
-            <input type="hidden" id="name-{{p.id}}" data-view-mode="list" value="{{p.name}}" readonly>
-            <input type="hidden" id="x-{{p.id}}" data-view-mode="list" value="{{p.coord_x}}" readonly>
-            <input type="hidden" id="y-{{p.id}}" data-view-mode="list" value="{{p.coord_y}}" readonly>
+    {% for p in data %}
+        <div id="object={{p.id}}">
+            <h1>Маршрут №{{p.id}}</h1>
+            <p>{{p.names}}</p>
+            <p>Продолжительсность маршрута: {{p.duration}}</p>
+            <p>Длина маршрута: {{p.length}}</p>
+            <input type="hidden" id="address-{{p.id}}" data-view-mode="list" value="{{p.address}}" readonly>
+            <input type="hidden" id="length-{{p.id}}" data-view-mode="list" value="{{p.length}}" readonly>
+            <input type="hidden" id="duration-{{p.id}}" data-view-mode="list" value="{{p.duration}}" readonly>
+            <input type="hidden" id="names-{{p.id}}" data-view-mode="list" value="{{p.names}}" readonly>
+            <button id="{{p.id}}" onclick="choose({{p.id}})">Построить</button>
+            <br>
         </div>
     {% endfor %}
-    <input type="hidden" id="address" data-view-mode="list" value="{{address}}" readonly>
-    <input type="hidden" id="duration" data-view-mode="list" value="{{duration}}" readonly>
-    <input type="hidden" id="length" data-view-mode="list" value="{{length}}" readonly>
 
-    <h3>Данные о маршруте:</h3>
-    <p id="point-array">Точки: </p>
-    <p>Длина: {{length}}</p>
-    <p>Продолжительность: {{duration}}</p>
+    <form id="nice_form" action="/p/" method="post">
+        {% csrf_token %}
+        {{ form }} <br>
+        <input type="hidden" type="submit" value="Submit">
+    </form>
 
-    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=f5d06009-128c-48d7-a2ee-73160b64f9e8" type="text/javascript"></script>
-    <script type="text/javascript" src="{% static 'js/answer.js' %}"> </script>
-
+    <script type="text/javascript" src="{% static 'js/choose.js' %}"></script>
     <div id="map"></div>
 
     <style type="text/css">
@@ -72,7 +74,7 @@
             -webkit-filter: grayscale(100%);
         }
     </style>
+
+
 </body>
 </html>
-
-<!-- answer -->

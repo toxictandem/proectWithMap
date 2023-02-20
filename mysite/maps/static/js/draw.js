@@ -5,12 +5,12 @@ var colourOn = '#c51d34'
 var colourOff = '#FFFFFF'
 
 function alarm(who) {
-    temp = document.getElementById("id_points").value;
+    temp = document.getElementById("id_address").value;
     half_one = temp.substring(0, who * 2 );
     half_two = temp.substring(who * 2 + 1, temp.length);
-    temp_value = 1 - document.getElementById("id_points").value[who * 2];
-    console.log(document.getElementById("id_points").value[who * 2], temp_value, who, document.getElementById("count-"+who).textContent) ;
-    document.getElementById("id_points").value = half_one + temp_value + half_two;
+    temp_value = 1 - document.getElementById("id_address").value[who * 2];
+    console.log(document.getElementById("id_address").value[who * 2], temp_value, who, document.getElementById("count-"+who).textContent) ;
+    document.getElementById("id_address").value = half_one + temp_value + half_two;
     if (temp_value == 1) {
         document.getElementById("count-"+who).textContent = 'Точка включена в маршрут';
         //document.getElementById("placemark-name-"+who).style.color = colourOn;
@@ -19,7 +19,7 @@ function alarm(who) {
         //document.getElementById("placemark-name-"+who).style.color = colourOff;
     }
     console.log(document.getElementById("placemark-name-"+who));
-    temp = document.getElementById("id_points").value;
+    temp = document.getElementById("id_address").value;
     new_text = '';
     for (i = 0; i < temp.length; i+=2) {
         if (temp[i] == 1) {
@@ -31,8 +31,8 @@ function alarm(who) {
 }
 
 function update(who) {
-    //console.log(document.getElementById("id_points").value[who * 2], temp_value, who, document.getElementById("count-"+who).textContent) ;
-    document.getElementById("id_points").value = half_one + temp_value + half_two;
+    //console.log(document.getElementById("id_address").value[who * 2], temp_value, who, document.getElementById("count-"+who).textContent) ;
+    document.getElementById("id_address").value = half_one + temp_value + half_two;
     if (temp_value == 1) {
         document.getElementById("count-"+who).textContent = 'Точка включена в маршрут';
     } else {
@@ -48,6 +48,11 @@ function init () {
             controls: []
         }),
 
+        start = '';
+        for (i = 0 ; i < 700; i++) {
+            start += '0|';
+        }
+        document.getElementById("id_address").value = start;
 
         BalloonContentLayout = ymaps.templateLayoutFactory.createClass(
             '<div style="margin: 10px;">' +
@@ -73,7 +78,7 @@ function init () {
 
     var animatedLayout = ymaps.templateLayoutFactory.createClass(
         '<div class="placemark"></div>' +
-        //'<i id="placemark-name-{{properties.id}}" style="background-color: #FFFFFF; font-size: 70%">{{properties.place}}</i>' +
+        //'<i id="placemark-name-{{properties.id}}" style="background-color: #FFFFFF">{{properties.place}}</i>' +
         '<input type="hidden" id="id" data-view-mode="list" value="{{properties.id}}" readonly></input> </b><br/>',
         {
             build: function () {
@@ -99,6 +104,7 @@ function init () {
                 let tx = document.getElementById("x-"+i).value;
                 let ty = document.getElementById("y-"+i).value;
                 count++;
+                console.log(tid, tname, tx, ty);
                 placemark.push(new ymaps.Placemark([tx, ty], {
                         id: tid,
                         place: tname,
@@ -108,12 +114,11 @@ function init () {
                     }, {
                         balloonContentLayout: BalloonContentLayout,
                         balloonPanelMaxMapArea: 0,
-                        iconLayout: animatedLayout,
-
+                        iconLayout: animatedLayout
                     }) );
         }
     }
-    document.getElementById("id_points").value = RoutePoints;
+    //document.getElementById("id_points").value = RoutePoints;
     console.log(placemark)
     for (i = 0; i < count; i++) {
         map.geoObjects.add(placemark[i]);

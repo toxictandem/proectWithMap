@@ -6,6 +6,16 @@
     <title>Title</title>
 </head>
 <body>
+
+</body>
+</html>{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
     <a href="{% url 'choose' %}">Выбор статических маршрутов</a> <br>
     <a href="{% url 'point' %}">Создать динамический маршрут</a> <br>
     <a href="{% url 'create' %}">Создать статический маршрут</a> <br>
@@ -17,17 +27,16 @@
             <input type="hidden" id="y-{{p.id}}" data-view-mode="list" value="{{p.coord_y}}" readonly>
         </div>
     {% endfor %}
-    <input type="hidden" id="address" data-view-mode="list" value="{{address}}" readonly>
-    <input type="hidden" id="duration" data-view-mode="list" value="{{duration}}" readonly>
-    <input type="hidden" id="length" data-view-mode="list" value="{{length}}" readonly>
+    <input type="hidden" id="must" data-view-mode="list" value="{{route}}" readonly>
 
-    <h3>Данные о маршруте:</h3>
-    <p id="point-array">Точки: </p>
-    <p>Длина: {{length}}</p>
-    <p>Продолжительность: {{duration}}</p>
+    <form id="nice_form" action="/p/" method="post">
+        {% csrf_token %}
+        {{ form }} <br>
+        <input type="hidden" type="submit" value="Submit">
+    </form>
 
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=f5d06009-128c-48d7-a2ee-73160b64f9e8" type="text/javascript"></script>
-    <script type="text/javascript" src="{% static 'js/answer.js' %}"> </script>
+    <script type="text/javascript" src="{% static 'js/validator.js' %}"> </script>
 
     <div id="map"></div>
 
@@ -75,4 +84,4 @@
 </body>
 </html>
 
-<!-- answer -->
+<!-- judger -->
