@@ -28,3 +28,8 @@ class Routes(models.Model):
     length = models.IntegerField(default=0)
     names = models.TextField()
 
+class graph(models.Model):
+    temp_id = models.IntegerField()
+    closest_id = models.TextField()
+    duration = models.TextField()
+    distance = models.TextField()

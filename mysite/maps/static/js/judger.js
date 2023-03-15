@@ -7,7 +7,7 @@ var pathData = [];
 var used = [];
 var finished = false;
 var count = 0;
-var iterationCount = 200;
+var iterationCount = 100;
 
 ymaps.ready(function () {
     var myMap = new ymaps.Map('map', {
@@ -20,6 +20,7 @@ ymaps.ready(function () {
     var points = [];
     var addressStart = 'Москва, проспект Мира, 119с'
     var all_id = new Set();
+    var must_set = new Set();
 
     for (i = 0; i < 700; i++) {
         check = document.getElementById('object-'+i);
@@ -51,6 +52,7 @@ ymaps.ready(function () {
         if (mustEncoded[i] == 1) {
             console.log('PREPARE: ',i / 2);
             must.push( [points[i / 2].x, points[i / 2].y] );
+            must_set.add( [points[i / 2].x, points[i / 2].y] )
             cd.push(i / 2);
         }
     }
@@ -76,7 +78,7 @@ ymaps.ready(function () {
                 let pointArray = pathData[5];
                 used.push(q);
                 finished = false
-                generator(pathLength, pathArray, lastPoint, pathDuration, pointArray, pathDistance);
+                //generator(pathLength, pathArray, lastPoint, pathDuration, pointArray, pathDistance);
 
                 console.log('///', q.length);
 
@@ -116,59 +118,15 @@ ymaps.ready(function () {
                     names += points[ bestPointArray[i] ].name + "; ";
                     console.log('names:', points[ bestPointArray[i] ])
                 }
-                document.getElementById('id_names').value = names;
-                form = document.getElementById('nice_form');
-                form.submit();
-                clearInterval(draw);
+                //document.getElementById('id_names').value = names;
+                //form = document.getElementById('nice_form');
+                //form.submit();
+                //clearInterval(draw);
             }
-        }, 1000
+        }, 10000
     )
     draw;
 
-    // Подписка на событие обновления данных маршрута.
-    /*multiRoute.model.events.add('requestsuccess', function() {
-        var activeRoute = multiRoute.getActiveRoute();
-        console.log("Длина: " + activeRoute.properties.get("distance").text);
-        console.log("Время прохождения: " + activeRoute.properties.get("duration").text);
-        console.log(activeRoute.properties.get("duration").value);
-        console.log("Точки маршрута: " + bestArray);
-    });*/
-
-
-
-
-    function getPathDuration(pathArrayTemp, pathArrayLength) {
-        tempDuration = -1;
-        tempDistance = -1;
-        var tempRoute = new ymaps.multiRouter.MultiRoute({
-            referencePoints: pathArrayTemp,
-            params: {
-                routingMode: "pedestrian"
-            }
-        });
-        console.log('New Iteration');
-        tempRoute.model.events.add('requestsuccess', function() {
-            var tempActiveRoute = tempRoute.getActiveRoute();
-            console.log("Время прохождения: " + tempActiveRoute.properties.get("duration").text);
-            console.log(pathArrayTemp);
-            tempDuration = tempActiveRoute.properties.get("duration").value;
-            tempDistance = tempActiveRoute.properties.get("distance").value;
-            //return;
-        });
-        //var tempActiveRoute = tempRoute.getActiveRoute();
-        //console.log()
-        function waitForTime() {
-            if (tempDuration == -1 || tempDistance == -1) {
-                //console.log('gen not yet...')
-                setTimeout(waitForTime, 10);
-                return;
-            }
-            console.log('Please!!!!!!!!!!!', tempDuration, tempDistance);
-            return;
-        }
-        waitForTime();
-        return;
-    }
 
     //pathLength, pathArray, lastPoint, pathDuration, needTime, pointArray
     function generator(pathLength, pathArray, lastPoint, pathDuration, pointArray, pathDistance) {
@@ -184,37 +142,27 @@ ymaps.ready(function () {
             if (!check) { continue; }
             tempArray.push( [points[i].x, points[i].y] );
 
-            //console.log('ADD Iteration')
             getPathDuration(tempArray, pathLength);
             tempPointArray.push(i);
-            console.log('END Iteration');
 
 
-            function waitForDuration() {
-                if (tempDuration == -1) {
-                    console.log('gen not yet...');
-                    setTimeout(waitForDuration, 10);
-                    finished = true;
-                    return;
-                }
-                console.log('AMOGUX', tempDuration);
-                //console.log('Best Temp', bestArray);
-                if (Math.abs(tempDuration - needTime) <= 60 && bestLength < pathLength + 1) {
-                    bestLength = pathLength + 1;
-                    bestArray = tempArray.slice();
-                    bestPointArray = tempPointArray.slice();
-                    bestTime = tempDuration;
-                    bestDistance = tempDistance;
-                    //q = [];
-                    //return;
-                } else {
-                    console.log('Stopped: ', pathArray, pathDuration);
-                }
-                console.log('Was: ', q.length);
-                q.push([pathLength + 1, [...tempArray], i, tempDuration, tempDistance, [...tempPointArray]]);
-                console.log('Now; ', q.length);
+            console.log('AMOGUX', tempDuration);
+            //console.log('Best Temp', bestArray);
+            if (Math.abs(tempDuration - needTime) <= 270 && bestLength < pathLength + 1) {
+                bestLength = pathLength + 1;
+                bestArray = tempArray.slice();
+                bestPointArray = tempPointArray.slice();
+                bestTime = tempDuration;
+                bestDistance = tempDistance;
+                //q = [];
+                //return;
+            } else {
+                console.log('Stopped: ', pathArray, pathDuration);
             }
-            waitForDuration();
+            console.log('Was: ', q.length);
+            q.push([pathLength + 1, [...tempArray], i, tempDuration, tempDistance, [...tempPointArray]]);
+            console.log('Now; ', q.length);
+            }
             //return;
 
         }

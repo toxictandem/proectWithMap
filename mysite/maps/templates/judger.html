@@ -17,6 +17,16 @@
             <input type="hidden" id="y-{{p.id}}" data-view-mode="list" value="{{p.coord_y}}" readonly>
         </div>
     {% endfor %}
+
+    {% for e in edges %}
+        <div type="hidden" id="graph-{{e.id}}" data-view-mode="list" value="{{e.id}}" >
+            <input type="hidden" id="start-{{e.id}}" data-view-mode="list" value="{{e.temp_id}}" readonly>
+            <input type="hidden" id="end-{{e.id}}" data-view-mode="list" value="{{e.closest_id}}" readonly>
+            <input type="hidden" id="duration-{{e.id}}" data-view-mode="list" value="{{e.duration}}" readonly>
+            <input type="hidden" id="distance-{{e.id}}" data-view-mode="list" value="{{e.distance}}" readonly>
+        </div>
+    {% endfor %}
+
     <input type="hidden" id="hour" data-view-mode="list" value="{{hour}}" readonly>
     <input type="hidden" id="minute" data-view-mode="list" value="{{minute}}" readonly>
     <input type="hidden" id="must" data-view-mode="list" value="{{route}}" readonly>
@@ -27,8 +37,8 @@
         <input type="hidden" type="submit" value="Submit">
     </form>
 
-    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=76705826-55e5-44a1-932f-e4b73b0fcd6c" type="text/javascript"></script>
-    <script type="text/javascript" src="{% static 'js/judger.js' %}"> </script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=9aba40a3-4745-48d5-8eb5-d04a9e23e584" type="text/javascript"></script>
+    <script type="text/javascript" src="{% static 'js/newjud.js' %}"> </script>
 
     <div id="map"></div>
 
@@ -77,4 +87,4 @@
 </body>
 </html>
 
-<!-- judger -->
+<!-- judger new -->

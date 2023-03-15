@@ -17,17 +17,9 @@
             <input type="hidden" id="y-{{p.id}}" data-view-mode="list" value="{{p.coord_y}}" readonly>
         </div>
     {% endfor %}
-    <input type="hidden" id="address" data-view-mode="list" value="{{address}}" readonly>
-    <input type="hidden" id="duration" data-view-mode="list" value="{{duration}}" readonly>
-    <input type="hidden" id="length" data-view-mode="list" value="{{length}}" readonly>
 
-    <h3>Данные о маршруте:</h3>
-    <p id="point-array">Точки: </p>
-    <p id="text-length">Длина: {{length}}</p>
-    <p id="text-duration">Продолжительность: {{duration}}</p>
-
-    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=9aba40a3-4745-48d5-8eb5-d04a9e23e584" type="text/javascript"></script>
-    <script type="text/javascript" src="{% static 'js/answer.js' %}"> </script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=09ec9e9f-2d1c-41fa-86b7-592edb4fc291" type="text/javascript"></script>
+    <script type="text/javascript" src="{% static 'js/temp.js' %}"> </script>
 
     <div id="map"></div>
 
@@ -72,7 +64,8 @@
             -webkit-filter: grayscale(100%);
         }
     </style>
+
 </body>
 </html>
 
-<!-- answer -->
+<!-- temp -->

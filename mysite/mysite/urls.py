@@ -24,5 +24,6 @@ urlpatterns = [
     path('jud/', judger),
     path('error/', error),
     path('choose/', choose, name='choose'),
-    path('create/', create, name='create')
+    path('create/', create, name='create'),
+    path('temp/', temp, name='temp')
 ]

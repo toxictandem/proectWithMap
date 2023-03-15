@@ -8,8 +8,8 @@ from . import templates
 from .forms import *
 
 def pointer(request):
-
     pointData = list(Landmarks.objects.all())
+    edges = list(graph.objects.all())
     if request.method == 'POST':
         form = CreateRouteForm(request.POST)
         createForm = SaveRoute(request.POST)
@@ -18,7 +18,7 @@ def pointer(request):
             m = form.cleaned_data['minute']
             r = form.cleaned_data['points']
             tf = SaveRoute()
-            return render(request, 'judger.html/', {'form': tf, 'points': pointData, 'hour': h, 'minute': m,  'route': r})
+            return render(request, 'judger.html/', {'form': tf, 'points': pointData, 'hour': h, 'minute': m,  'route': r, 'edges': edges})
         elif createForm.is_valid():
             a = createForm.cleaned_data['address']
             d = createForm.cleaned_data['duration']
@@ -49,6 +49,7 @@ def error(request):
 def choose(request):
     data = list(Routes.objects.all())
     pointData = list(Landmarks.objects.all())
+    edges = list(graph.objects.all())
     if request.method == 'POST':
         createForm = SaveRoute(request.POST)
         if createForm.is_valid():
@@ -85,3 +86,8 @@ def create(request):
     else:
         form = CreateStaticRouteForm()
     return render(request, 'draw.html', {'data': pointData, 'form': form})
+
+def temp(request):
+    pointData = list(Landmarks.objects.all())
+    scheme = [1, 2, 3, 4, 5]
+    return render(request, 'temp.html', {'points': pointData, 'row': scheme})
