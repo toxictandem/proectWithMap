@@ -26,5 +26,7 @@ urlpatterns = [
     path('choose/', choose, name='choose'),
     path('create/', create, name='create'),
     path('temp/', temp, name='temp'),
-    path('index/', index, name='index')
+    path('', index, name='index'),
+    path('din/', dinamic, name='dinamic'),
+    path('stat/', static, name='static')
 ]

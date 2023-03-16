@@ -94,4 +94,14 @@ def temp(request):
     return render(request, 'temp.html', {'points': pointData, 'row': scheme})
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'main.html')
+
+def dinamic(request):
+    form = CreateRouteForm()
+    pointData = list(Landmarks.objects.all())
+    return render(request, 'dinamic.html', {'form': form, 'data': pointData})
+
+def static(request):
+    form = CreateRouteForm()
+    pointData = list(Landmarks.objects.all())
+    return render(request, 'static.html', {'form': form, 'data': pointData})
