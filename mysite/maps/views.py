@@ -17,8 +17,9 @@ def pointer(request):
             h = form.cleaned_data['hour']
             m = form.cleaned_data['minute']
             r = form.cleaned_data['points']
+            dp = form.cleaned_data['depth']
             tf = SaveRoute()
-            return render(request, 'judger.html/', {'form': tf, 'points': pointData, 'hour': h, 'minute': m,  'route': r, 'edges': edges})
+            return render(request, 'judger.html/', {'form': tf, 'points': pointData, 'hour': h, 'minute': m, 'depth': dp, 'route': r, 'edges': edges})
         elif createForm.is_valid():
             a = createForm.cleaned_data['address']
             d = createForm.cleaned_data['duration']
@@ -91,3 +92,6 @@ def temp(request):
     pointData = list(Landmarks.objects.all())
     scheme = [1, 2, 3, 4, 5]
     return render(request, 'temp.html', {'points': pointData, 'row': scheme})
+
+def index(request):
+    return render(request, 'index.html')

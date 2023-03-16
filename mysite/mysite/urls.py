@@ -25,5 +25,6 @@ urlpatterns = [
     path('error/', error),
     path('choose/', choose, name='choose'),
     path('create/', create, name='create'),
-    path('temp/', temp, name='temp')
+    path('temp/', temp, name='temp'),
+    path('index/', index, name='index')
 ]

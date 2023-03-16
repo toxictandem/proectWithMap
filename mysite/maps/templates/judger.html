@@ -9,6 +9,8 @@
     <a href="{% url 'choose' %}">Выбор статических маршрутов</a> <br>
     <a href="{% url 'point' %}">Создать динамический маршрут</a> <br>
     <a href="{% url 'create' %}">Создать статический маршрут</a> <br>
+
+    <br> <h1 id="loading">...</h1>
     {% for p in points %}
         <div type="hidden" id="object-{{p.id}}" data-view-mode="list" value="{{p.id}}" >
             <input type="hidden" id="id-{{p.id}}" data-view-mode="list" value="{{p.id}}" readonly>
@@ -29,6 +31,7 @@
 
     <input type="hidden" id="hour" data-view-mode="list" value="{{hour}}" readonly>
     <input type="hidden" id="minute" data-view-mode="list" value="{{minute}}" readonly>
+    <input type="hidden" id="depth" data-view-mode="list" value="{{depth}}" readonly>
     <input type="hidden" id="must" data-view-mode="list" value="{{route}}" readonly>
 
     <form id="nice_form" action="/p/" method="post">
