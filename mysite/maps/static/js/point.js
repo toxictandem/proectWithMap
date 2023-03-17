@@ -21,13 +21,20 @@ function alarm(who) {
     console.log(document.getElementById("placemark-name-"+who));
     temp = document.getElementById("id_points").value;
     new_text = '';
+    added_check = true;
     for (i = 0; i < temp.length; i+=2) {
         if (temp[i] == 1) {
             new_text = new_text +  '' + document.getElementById("name-"+i/2).value + '; ';
+            added_check = false;
         }
     }
-    document.getElementById("point-array").textContent = new_text;
-    console.log('text', new_text, document.getElementById("name-"+who).value);
+
+    if (added_check) {
+        document.getElementById("point-array").textContent = "Ничего не выбрано";
+    } else {
+        document.getElementById("point-array").textContent = new_text;
+    }
+    console.log('text', added_check, new_text, document.getElementById("name-"+who).value);
 }
 
 function update(who) {
@@ -107,8 +114,8 @@ function init () {
                         hintContent: tname
                     }, {
                         balloonContentLayout: BalloonContentLayout,
-                        balloonPanelMaxMapArea: 0,
-                        iconLayout: animatedLayout,
+                        balloonPanelMaxMapArea: 0
+                        //iconLayout: animatedLayout,
 
                     }) );
         }
