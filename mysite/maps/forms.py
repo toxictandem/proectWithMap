@@ -2,9 +2,9 @@ from django import forms
 
 class CreateRouteForm(forms.Form):
     hour = forms.IntegerField(label='Часы',max_value=8,min_value=0,initial=0,widget=forms.HiddenInput())
-    minute = forms.IntegerField(label='Минуты',max_value=59,min_value=0,initial=0,error_messages={'required': 'Задано неподходящее значение'})
+    minute = forms.IntegerField(label='Минуты',max_value=59,min_value=0,initial=0,error_messages={'required': 'Задано неподходящее значение'},widget=forms.HiddenInput())
     points = forms.CharField(label='Точки',max_length=1400,required=False,initial=0,widget=forms.HiddenInput())
-    depth = forms.IntegerField(label='Глубина генерации маршрута',max_value=10,min_value=1,initial=1)
+    depth = forms.IntegerField(label='Глубина генерации маршрута',max_value=10,min_value=1,initial=1,widget=forms.HiddenInput())
 
 class SaveRoute(forms.Form):
     address = forms.CharField(label='Точки',max_length=1400,required=False,initial=0,widget=forms.HiddenInput())

@@ -1,16 +1,30 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <a href="{% url 'choose' %}">Выбор статических маршрутов</a> <br>
-    <a href="{% url 'point' %}">Создать динамический маршрут</a> <br>
-    <a href="{% url 'create' %}">Создать статический маршрут</a> <br>
+<html style="font-size: 16px;" lang="ru"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Загрузка">
+    <meta name="description" content="">
+    <title>Загрузка</title>
+    <link rel="stylesheet" href="{% static 'css/nicepage.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/Загрузка.css' %}" media="screen">
+    <script class="u-script" type="text/javascript" src="{% static 'js/jquery.js' %}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{% static 'js/nicepage.js' %}" defer=""></script>
+    <meta name="generator" content="Nicepage 5.6.13, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
 
-    <br> <h1 id="loading">...</h1>
+
+    <script type="application/ld+json">{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": "",
+		"logo": "images/default-logo.png"
+}</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="О нас">
+    <meta property="og:type" content="website">
+  <meta data-intl-tel-input-cdn-path="intlTelInput/" /></head>
+<body>
     {% for p in points %}
         <div type="hidden" id="object-{{p.id}}" data-view-mode="list" value="{{p.id}}" >
             <input type="hidden" id="id-{{p.id}}" data-view-mode="list" value="{{p.id}}" readonly>
@@ -43,7 +57,7 @@
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=9aba40a3-4745-48d5-8eb5-d04a9e23e584" type="text/javascript"></script>
     <script type="text/javascript" src="{% static 'js/newjud.js' %}"> </script>
 
-    <div id="map"></div>
+    <div id="map" hidden></div>
 
     <style type="text/css">
         html, body {
@@ -86,6 +100,34 @@
             -webkit-filter: grayscale(100%);
         }
     </style>
+
+    <section class="u-align-center u-clearfix u-image u-shading u-section-1" data-image-width="2000" data-image-height="1333" id="sec-e4b6">
+      <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <div class="u-align-left u-border-5 u-border-white u-container-style u-group u-group-1">
+          <div  class="u-container-layout u-valign-top u-container-layout-1"><span class="u-file-icon u-icon u-text-white u-icon-1"><img src="{% static 'images/loading.png' %}" alt=""></span>
+            <h2 id="loading" class="u-align-center u-text u-text-default u-text-1">Загрузка</h2>
+            <p class="u-align-center u-text u-text-2">Это может занять некоторое время. Чтобы ускорить маршрутизацию, уменьшите глубину поиска</p>
+            <a href="{% url 'index' %}" class="u-border-2 u-border-white u-btn u-btn-rectangle u-button-style u-none u-btn-1">на главную</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-6a82"><div class="u-clearfix u-sheet u-sheet-1">
+        <p class="u-small-text u-text u-text-variant u-text-1">Сделано с <3 от команды Toxic tandem</p>
+      </div></footer>
+    <section class="u-backlink u-clearfix u-grey-80">
+      <a class="u-link" href="https://nicepage.com/website-templates" target="_blank">
+        <span>Website Templates</span>
+      </a>
+      <p class="u-text">
+        <span>created with</span>
+      </p>
+      <a class="u-link" href="" target="_blank">
+        <span>Website Builder Software</span>
+      </a>.
+    </section>
 
 </body>
 </html>

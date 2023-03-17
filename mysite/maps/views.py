@@ -1,9 +1,7 @@
 from django.shortcuts import render
 
-# Create your views here.
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from .models import *
-from . import templates
 
 from .forms import *
 
@@ -26,31 +24,15 @@ def pointer(request):
             l = createForm.cleaned_data['length']
             n = createForm.cleaned_data['names']
             ins = Routes(address=a, duration=d, length=l, names=n)
-            if d > -1 and l > -1:
-                ins.save()
-                return render(request, 'answer.html/', {'points': pointData, 'address': a, 'duration': d, 'length': l, 'names': n})
-            else:
-                return HttpResponseRedirect('/error/')
+            ins.save()
+            return render(request, 'beauty.html', {'points': pointData, 'address': a, 'duration': d, 'length': l, 'names': n})
     else:
         form = CreateRouteForm()
-
-
-    return render(request, 'point.html', {'data': pointData, 'form': form})
-
-def answer(request):
-    return render(request, 'answer.html')
-
-def judger(request):
-    points = list(Landmarks.objects.all())
-    return render(request, 'judger.html', {"points": points})
-
-def error(request):
-    return render(request, 'error.html')
+    return render(request, 'dinamic.html', {'data': pointData, 'form': form})
 
 def choose(request):
     data = list(Routes.objects.all())
     pointData = list(Landmarks.objects.all())
-    edges = list(graph.objects.all())
     if request.method == 'POST':
         createForm = SaveRoute(request.POST)
         if createForm.is_valid():
@@ -58,11 +40,11 @@ def choose(request):
             d = createForm.cleaned_data['duration']
             l = createForm.cleaned_data['length']
             n = createForm.cleaned_data['names']
-            return render(request, 'answer.html/', {'points': pointData, 'address': a, 'duration': d, 'length': l, 'names': n})
+            return render(request, 'beauty.html', {'points': pointData, 'address': a, 'duration': d, 'length': l, 'names': n})
     else:
         createForm = SaveRoute()
 
-    return render(request, 'choose.html', {"data": data, 'form': createForm})
+    return render(request, 'history.html', {"data": data, 'form': createForm})
 
 def create(request):
     pointData = list(Landmarks.objects.all())
@@ -81,27 +63,12 @@ def create(request):
             ins = Routes(address=a, duration=d, length=l, names=n)
             if d > -1 and l > -1:
                 ins.save()
-                return render(request, 'answer.html/', {'points': pointData, 'address': a, 'duration': d, 'length': l, 'names': n})
+                return render(request, 'beauty.html/', {'points': pointData, 'address': a, 'duration': d, 'length': l, 'names': n})
             else:
                 return HttpResponseRedirect('/error/')
     else:
         form = CreateStaticRouteForm()
-    return render(request, 'draw.html', {'data': pointData, 'form': form})
-
-def temp(request):
-    pointData = list(Landmarks.objects.all())
-    scheme = [1, 2, 3, 4, 5]
-    return render(request, 'temp.html', {'points': pointData, 'row': scheme})
+    return render(request, 'static.html', {'data': pointData, 'form': form})
 
 def index(request):
     return render(request, 'main.html')
-
-def dinamic(request):
-    form = CreateRouteForm()
-    pointData = list(Landmarks.objects.all())
-    return render(request, 'dinamic.html', {'form': form, 'data': pointData})
-
-def static(request):
-    form = CreateRouteForm()
-    pointData = list(Landmarks.objects.all())
-    return render(request, 'static.html', {'form': form, 'data': pointData})

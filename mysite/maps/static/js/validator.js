@@ -28,16 +28,12 @@ function init() {
         }
     }
 
-    console.log(all_id);
-    console.log(points);
-
     mustEncoded = document.getElementById('must').value;
     must = [ [points[1].x, points[1].y] ];
     cd = [];
     names = '';
     for (i = 0; i < 1400; i += 2) {
         if (mustEncoded[i] == 1) {
-            console.log('PREPARE: ',i / 2);
             must.push( [points[i / 2].x, points[i / 2].y] );
             cd.push(i / 2);
             names += '' + points[i / 2].name + '; ';
@@ -53,24 +49,16 @@ function init() {
                 routingMode: "pedestrian"
             }
         });
-        console.log('New Iteration');
         tempRoute.model.events.add('requestsuccess', function() {
             var tempActiveRoute = tempRoute.getActiveRoute();
-            console.log("Время прохождения: " + tempActiveRoute.properties.get("duration").text);
-            console.log(pathArrayTemp);
             tempDuration = tempActiveRoute.properties.get("duration").value;
             tempDistance = tempActiveRoute.properties.get("distance").value;
-            //return;
         });
-        //var tempActiveRoute = tempRoute.getActiveRoute();
-        //console.log()
         function waitForTime() {
             if (tempDuration == -1 || tempDistance == -1) {
-                //console.log('gen not yet...')
                 setTimeout(waitForTime, 10);
                 return;
             }
-            console.log('Please!!!!!!!!!!!', tempDuration, tempDistance);
             return;
         }
         waitForTime();
@@ -83,7 +71,6 @@ function init() {
             setTimeout(waitAgain, 10);
             return;
         }
-        console.log('Please!!!!!!!!!!!', tempDuration, tempDistance);
         document.getElementById('id_address').value = mustEncoded;
         document.getElementById('id_duration').value = tempDuration;
         document.getElementById('id_length').value = tempDistance;

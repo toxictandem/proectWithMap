@@ -26,7 +26,7 @@ function init() {
     }
 }
 
-init();
+setTimeout( init, 1000 );
 
 function choose(chosen_id) {
     document.getElementById("id_address").value = document.getElementById("address-"+chosen_id).value;

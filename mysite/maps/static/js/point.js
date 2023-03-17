@@ -9,7 +9,6 @@ function alarm(who) {
     half_one = temp.substring(0, who * 2 );
     half_two = temp.substring(who * 2 + 1, temp.length);
     temp_value = 1 - document.getElementById("id_points").value[who * 2];
-    console.log(document.getElementById("id_points").value[who * 2], temp_value, who, document.getElementById("count-"+who).textContent) ;
     document.getElementById("id_points").value = half_one + temp_value + half_two;
     if (temp_value == 1) {
         document.getElementById("count-"+who).textContent = 'Точка включена в маршрут';
@@ -18,7 +17,6 @@ function alarm(who) {
         document.getElementById("count-"+who).textContent = 'Точка исключена из маршрута';
         //document.getElementById("placemark-name-"+who).style.color = colourOff;
     }
-    console.log(document.getElementById("placemark-name-"+who));
     temp = document.getElementById("id_points").value;
     new_text = '';
     added_check = true;
@@ -34,11 +32,9 @@ function alarm(who) {
     } else {
         document.getElementById("point-array").textContent = new_text;
     }
-    console.log('text', added_check, new_text, document.getElementById("name-"+who).value);
 }
 
 function update(who) {
-    //console.log(document.getElementById("id_points").value[who * 2], temp_value, who, document.getElementById("count-"+who).textContent) ;
     document.getElementById("id_points").value = half_one + temp_value + half_two;
     if (temp_value == 1) {
         document.getElementById("count-"+who).textContent = 'Точка включена в маршрут';
@@ -100,7 +96,6 @@ function init () {
         RoutePoints += '0|';
         let stid = document.getElementById("id-"+i);
             if (stid) {
-            console.log(stid);
                 let tid = document.getElementById("id-"+i).value;
                 let tname = document.getElementById("name-"+i).value;
                 let tx = document.getElementById("x-"+i).value;
@@ -114,16 +109,14 @@ function init () {
                         hintContent: tname
                     }, {
                         balloonContentLayout: BalloonContentLayout,
-                        balloonPanelMaxMapArea: 0
-                        //iconLayout: animatedLayout,
+                        balloonPanelMaxMapArea: 0,
+                        iconLayout: animatedLayout,
 
                     }) );
         }
     }
     document.getElementById("id_points").value = RoutePoints;
-    console.log(placemark)
     for (i = 0; i < count; i++) {
         map.geoObjects.add(placemark[i]);
-        console.log('!!!', placemark[i].properties._data);
     }
 }

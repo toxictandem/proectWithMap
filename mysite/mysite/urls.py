@@ -20,13 +20,7 @@ from maps.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('p/', pointer, name='point'),
-    path('answer/', answer),
-    path('jud/', judger),
-    path('error/', error),
     path('choose/', choose, name='choose'),
     path('create/', create, name='create'),
-    path('temp/', temp, name='temp'),
     path('', index, name='index'),
-    path('din/', dinamic, name='dinamic'),
-    path('stat/', static, name='static')
 ]

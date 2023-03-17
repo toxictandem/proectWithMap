@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="ru"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Маршрут построен и сохранен, ​Meet us, ​Get in Touch">
+    <meta name="description" content="">
+    <title>Результат</title>
+    <link rel="stylesheet" href="{% static 'css/nicepage.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/Результат.css' %}" media="screen">
+    <script class="u-script" type="text/javascript" src="{% static 'js/jquery.js' %}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{% static 'js/nicepage.js' %}" defer=""></script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=9aba40a3-4745-48d5-8eb5-d04a9e23e584" type="text/javascript"></script>
+    <script type="text/javascript" src="{% static 'js/answer.js' %}"></script>
+    <meta name="generator" content="Nicepage 5.6.13, nicepage.com">
+    <meta name="referrer" content="origin">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
+
+    <style>
+            html, body, #map {
+                width: 100%; height: 100%; padding: 0; margin: 0;
+            }
+            .placemark {
+                background-image: url('https://cdn-icons-png.flaticon.com/512/2711/2711637.png');
+                background-size: 100%;
+                width: 34px;
+                height: 34px;
+                margin-left: -17px;
+                margin-top: -17px;
+            }
+
+            .active {
+                background-image: url('https://cdn-icons-png.flaticon.com/512/2711/2711608.png');
+                width: 60px;
+                height: 60px;
+                margin-left: -30px;
+                margin-top: -40px;
+
+            }
+
+            .placemark-name {
+                font-size: x-small;
+                text-align: center;
+                margin-left: -25px;
+            }
+            .ymaps-layers-pane {
+                -webkit-filter: grayscale(100%);
+            }
+        </style>
+    <script type="application/ld+json">{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": "",
+		"logo": "images/default-logo.png"
+}</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="О нас">
+    <meta property="og:type" content="website">
+  <meta data-intl-tel-input-cdn-path="intlTelInput/" /></head>
+  <body data-home-page="О-нас.html" data-home-page-title="О нас" class="u-body u-xl-mode" data-lang="ru">
+    <header class="u-clearfix u-header u-header" id="sec-6b7c">
+            <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+                <a href="https://nicepage.com" class="u-image u-logo u-image-1" data-image-width="1024" data-image-height="1024">
+                    <img src="{% static 'images/Logo.webp' %}" class="u-logo-image u-logo-image-1">
+                </a>
+                <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
+                    <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
+                        <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="#">
+                            <svg class="u-svg-link" viewBox="0 0 24 24">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#menu-hamburger"></use>
+                            </svg>
+                            <svg class="u-svg-content" version="1.1" id="menu-hamburger" viewBox="0 0 16 16" x="0px" y="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+                                <g>
+                                    <rect y="1" width="16" height="2"></rect>
+                                    <rect y="7" width="16" height="2"></rect>
+                                    <rect y="13" width="16" height="2"></rect>
+                                </g>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="u-custom-menu u-nav-container">
+                    <ul class="u-nav u-unstyled u-nav-1">
+                        <a style="padding: 10px 20px;" href="{% url 'index' %}">Главная</a>
+                        <a style="padding: 10px 20px;" href="{% url 'create' %}">Статический маршрут</a>
+                        <a style="padding: 10px 20px;" href="{% url 'point' %}">Динамический маршрут</a>
+                        <a style="padding: 10px 20px;" href="{% url 'choose' %}">История</a>
+                    </ul>
+                  </div>
+                </nav>
+            </div>
+        </header>
+    <div>
+        {% for p in points %}
+            <div type="hidden" id="object-{{p.id}}" data-view-mode="list" value="{{p.id}}" >
+                <input type="hidden" id="id-{{p.id}}" data-view-mode="list" value="{{p.id}}" readonly>
+                <input type="hidden" id="name-{{p.id}}" data-view-mode="list" value="{{p.name}}" readonly>
+                <input type="hidden" id="x-{{p.id}}" data-view-mode="list" value="{{p.coord_x}}" readonly>
+                <input type="hidden" id="y-{{p.id}}" data-view-mode="list" value="{{p.coord_y}}" readonly>
+            </div>
+        {% endfor %}
+    </div>
+    <input type="hidden" id="address" data-view-mode="list" value="{{address}}" readonly>
+    <input type="hidden" id="duration" data-view-mode="list" value="{{duration}}" readonly>
+    <input type="hidden" id="length" data-view-mode="list" value="{{length}}" readonly>
+    <section class="u-clearfix u-section-1" id="sec-afe7">
+      <div class="u-expanded u-grey-10 u-map">
+        <div class="embed-responsive">
+          <div id="map"></div>
+        </div>
+      </div>
+      <div class="u-align-left u-container-style u-group u-white u-group-1">
+        <div class="u-container-layout u-container-layout-1">
+          <h2 class="u-text u-text-1">Маршрут построен и сохранен</h2>
+          <div class="u-expanded-width u-list u-list-1">
+            <div class="u-repeater u-repeater-1">
+              <div class="u-container-style u-list-item u-repeater-item u-shape-rectangle">
+                <div class="u-container-layout u-similar-container u-container-layout-2"><span class="u-file-icon u-icon u-text-palette-2-base u-icon-1"><img src="{% static 'images/length.png' %}" alt=""></span>
+                  <h4 class="u-text u-text-2">Длина маршрута</h4>
+                  <p class="u-text u-text-3" id="text-length">
+                    4 км. 500 м.
+                  </p>
+                </div>
+              </div>
+              <div class="u-container-style u-list-item u-repeater-item u-shape-rectangle">
+                <div class="u-container-layout u-similar-container u-container-layout-3"><span class="u-file-icon u-icon u-text-palette-2-base u-icon-2"><img src="{% static 'images/time.png' %}" alt=""></span>
+                  <h4 class="u-text u-text-4">Продолжительность маршрута</h4>
+                  <p class="u-text u-text-5" id="text-duration">
+                      2 ч. 56 мин.
+                  </p>
+                </div>
+              </div>
+              <div class="u-container-style u-list-item u-repeater-item u-shape-rectangle">
+                <div class="u-container-layout u-similar-container u-container-layout-4"><span class="u-file-icon u-icon u-text-palette-2-base u-icon-3"><img src="{% static 'images/marker.png' %}" alt=""></span>
+                  <h4 class="u-text u-text-6">Точки маршрута</h4>
+                  <p class="u-text u-text-7" id="point-array">
+                    Павильон № 2 Робостанция; Павильон № 4 Киргизия; Павильон № 9 Театр Сказок; Павильон № 14 Азербайджан; Павильон № 16; Мультимедиа галерея Лес; Павильон № 18 Республика Беларусь; Павильон № 19 Атомная энергия; Павильон № 20 Центральный дом автоспорта; Павильон № 63 Пром. Техноград; Павильон № 75 Экспо; Дом культуры ВДНХ; Гастроном; Садко;
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="u-clearfix u-section-2" id="sec-a3d7">
+      <div class="u-clearfix u-sheet u-sheet-1"></div>
+    </section>
+
+
+
+    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-6a82"><div class="u-clearfix u-sheet u-sheet-1">
+        <p class="u-small-text u-text u-text-variant u-text-1">Сделано с <3 от команды Toxic tandem</p>
+      </div></footer>
+    <section class="u-backlink u-clearfix u-grey-80">
+      <a class="u-link" href="https://nicepage.com/website-templates" target="_blank">
+        <span>Website Templates</span>
+      </a>
+      <p class="u-text">
+        <span>created with</span>
+      </p>
+      <a class="u-link" href="" target="_blank">
+        <span>Website Builder Software</span>
+      </a>.
+    </section>
+
+</body></html>

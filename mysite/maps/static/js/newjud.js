@@ -97,7 +97,6 @@ function start() {
 
 
     while (q.length > 0 && count < iterationCount) {
-        console.log('CCC', count);
         let pathData = q.pop();
         let pathLength = pathData[0];
         let pathArray = pathData[1];
@@ -115,7 +114,6 @@ function start() {
 
 setTimeout(start, 1000);
 
-console.log(bestPointArray);
 
 //pathLength, pathArray, lastPoint, pathDuration, pointArray
 
@@ -240,14 +238,6 @@ function decode(s) {
     }
     return result;
 }
-
-setInterval(function () {console.log('CHECK: ', q.length, count);}, 5000);
-setInterval(function () {console.log('TOTAL: ', allPaths);}, 5000);
-setInterval(function () {console.log('BEST:  ', bestPointArray);}, 5000);
-setInterval(function () {console.log('COUNT: ', count, q);}, 5000);
-setInterval(function () {console.log('USED:  ', bestUsed, q);}, 5000);
-setInterval(function () {console.log('TIME:  ', bestTime);}, 5000);
-setInterval(function () {console.log('DIST:  ', bestDistance);}, 5000);
 
 });
 
